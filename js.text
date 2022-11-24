@@ -1,0 +1,47 @@
+let main = document.getElementById('main');
+let sidebar = document.getElementById('sidebar');
+let mainid = apiProducts[0]['id'];
+
+function showMain() {
+    let product = apiProducts.find(obj => obj.id == mainid);
+    main.innerHTML = 
+    `<img src="img/${product['image']}" alt="" class='img-fluid'>
+    <h2>${product['name']}</h2>
+    <p>${product['body']}</p>`
+    showSidebar()
+};
+
+function showSidebar() {
+    sidebar.innerHTML = '';
+
+    for (const product of apiProducts) {
+        if(product['id'] != mainid){
+            sidebar.innerHTML += 
+            `<div class='row mb-3' >
+                <div class="col-5">
+                    <img src="img/sm/${product['image']}" alt="" class='img-fluid border rounded'>
+                </div>
+                <div class="col">
+                    <h6>${product['name']}</h6>
+                    <p>${product['body'].substring(0, (130 - product['name'].length))}</p>
+                    <button class="btn btn-secondary btn-sm" value='${product['id']}'>Show more</button>
+                </div>
+            </div>`
+        }
+    }
+
+    let btns = document.getElementsByClassName('btn');
+    for (const btn of btns) {
+        btn.addEventListener('click', updateMain);
+    }
+};
+
+
+
+
+function updateMain() {
+    mainid = +this.value;
+    showMain();
+}
+
+showMain()
